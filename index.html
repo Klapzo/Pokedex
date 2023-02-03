@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="src/main.css" />
+		<script defer src="src/index.js" type="module"></script>
+		<title>Pokedex</title>
+	</head>
+	<body>
+		<h1 class="center">Pokedex</h1>
+		<div class="pokemon-detail hidden">
+			<h3 class="pokemon-nombre center">NOMBRE</h3>
+			<img
+				src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png"
+				alt="pokemon sprite front"
+				class="pokemon-sprite center"
+			/>
+			<span class="pokemon-info">
+				<label ">shiny</label>
+				<input type="checkbox" class="shiny"/>
+				<div class="line"></div>
+				<strong>PESO:</strong>
+				<span class="pokemon-peso">0</span>
+				<div class="line"></div>
+				<strong>ALTURA:</strong>
+				<span class="pokemon-altura">0</span>
+				<div class="line"></div>
+				<strong>ID:</strong>
+				<span class="pokemon-id">0</span>
+				<div class="line"></div>
+				<strong>ORDEN:</strong>
+				<span class="pokemon-orden">0</span>
+				<div class="line"></div>
+				<strong>XP base:</strong>
+				<span class="pokemon-xp">0</span>
+				<div class="line"></div>
+				<strong>ESPECIE:</strong>
+				<span class="pokemon-especie">0</span>
+				<div class="line"></div>
+			</span>
+			<button class="volver">< volver</button>
+		</div>
+
+		<section class="pokedex" data-pagina="https://pokeapi.co/api/v2/pokemon/" ></section>
+	</body>
+</html>
