@@ -1,60 +1,64 @@
 import { fetchImage, fetchPage, fetchPokemon } from "./exchange.js";
-var shiny = false;
+
+const observador = new IntersectionObserver((entradas) => {
+	manejarEntradasObservador(entradas);
+}, configuracionObservador);
+
 var scroll;
-
-export function obtenerUltimaCarta() {
-	const $cartas = document.querySelectorAll(".card-template");
-	const $ultimaCarta = $cartas[$cartas.length - 1];
-
-	return $ultimaCarta;
+export async function manejarCartas() {
+	crearCartas()
+	escucharClicks();
+	await popularCartas();
+	observarUltimaCarta()
+	cambiarASiguientePagina();
 }
 
-export async function manejarCartas() {
-	crearCartas();
-	escucharClicks();
+function observarUltimaCarta() {
+	observador.disconnect();
+	const $cartas = document.querySelectorAll(".card-template");
+	const $ultimaCarta = $cartas[$cartas.length - 1];
+	observador.observe($ultimaCarta);
+}
 
-	const pokemones = await fetchPage();
 
-	const $cartas = document.querySelectorAll(".card-template:not(.populated)");
-	$cartas.forEach(async (carta, index) => {
-		popularCarta(carta, index);
+async function popularCartas() {
+	const lista = await fetchPage();
+	const listaPokemones = await lista.results;
+
+	const $cartasVacias = document.querySelectorAll(".card-template:not(.populated)");
+
+
+	$cartasVacias.forEach(async function ($carta, index) {
+		const pokemon = await listaPokemones[index];
+
+		$carta.classList.add("populated");
+
+		const nombrePokemon = pokemon.name;
+		const urlImagenPokemon = await fetchImage(pokemon.url);
+
+		$carta.querySelector("h3").innerText = nombrePokemon;
+		$carta.querySelector("img").setAttribute("src", urlImagenPokemon);
+		$carta.dataset.pokemonurl = listaPokemones[index].url;
 	});
 
-	document.querySelector(".pokedex").dataset.pagina = pokemones.next;
 }
 
 function escucharClicks() {
+
 	document
-		.querySelectorAll("div[class=card-template]")
+		.querySelectorAll(".card-template:not(.populated)")
 		.forEach((carta) => carta.addEventListener("click", cambiarEscena));
 
 	const $botonVolver = document.querySelector(".pokemon-detail").querySelector(".volver");
 	$botonVolver.onclick = cambiarEscena;
 }
 
-function esShiny(e) {
-	return;
-}
-
-async function popularCarta($carta, index) {
-	const pokemones = await fetchPage();
-	const urlImagenPokemon = await fetchImage(pokemones.results[index].url);
-
-	const nombrePokemon = pokemones.results[index].name;
-	$carta.querySelector("h3").innerText = nombrePokemon;
-	$carta.querySelector("img").setAttribute("src", urlImagenPokemon);
-
-	$carta.dataset.pokemonurl = pokemones.results[index].url;
-	$carta.classList.add("populated");
-}
-
-async function popularDetail(pokemonURL, $pokemonDetail) {
-	var shiny = false;
+async function popularDetail(imagenURL, $pokemonDetail) {
 	const shinyCheckbox = $pokemonDetail.querySelector(".shiny");
-    
-    shinyCheckbox.checked = false
-	const pokemon = await fetchPokemon(pokemonURL);
-	const urlImagenPokemon = await fetchImage(pokemonURL, shiny);
+	var shiny = false;
+	shinyCheckbox.checked = false;
+	const pokemon = await fetchPokemon(imagenURL);
+	const urlImagenPokemon = await fetchImage(imagenURL, shiny);
 
 	const nombre = pokemon.name;
 
@@ -76,7 +80,7 @@ async function popularDetail(pokemonURL, $pokemonDetail) {
 
 	shinyCheckbox.onclick = async (e) => {
 		e.srcElement.checked ? (shiny = true) : (shiny = false);
-		const urlImagenPokemon = await fetchImage(pokemonURL, shiny);
+		const urlImagenPokemon = await fetchImage(imagenURL, shiny);
 		$pokemonDetail.querySelector("img").setAttribute("src", urlImagenPokemon);
 	};
 }
@@ -99,6 +103,7 @@ function cambiarEscena(e) {
 }
 
 function crearCartas(cantidad = 20) {
+
 	const $pokedex = document.querySelector(".pokedex");
 
 	for (let i = 0; i < cantidad; i++) {
@@ -110,4 +115,31 @@ function crearCartas(cantidad = 20) {
 
 		$pokedex.appendChild($carta);
 	}
+}
+
+function cambiarASiguientePagina() {
+	const pagina = document.querySelector(".pokedex").dataset.pagina;
+
+	const numeroPagina = Number(pagina.split("=")[1].split("&")[0]) + 20;
+
+	document.querySelector(
+		".pokedex",
+	).dataset.pagina = `https://pokeapi.co/api/v2/pokemon/?offset=${numeroPagina}&limit=20`;
+}
+
+var configuracionObservador = {
+	rootMargin: "0px 0px 10px 0px",
+	threshold: 1.0,
+};
+
+function manejarEntradasObservador(entradas) {
+	entradas.forEach((entrada) => {
+		if (entrada.isIntersecting) {
+			observador.disconnect();
+			if (document.querySelectorAll(".card-template").length < 1278) {
+				manejarCartas();
+			}
+			return;
+		}
+	});
 }

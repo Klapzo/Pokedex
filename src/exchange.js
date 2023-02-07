@@ -1,23 +1,38 @@
-
 export async function fetchPokemon(URL) {
-	const pokemon = await fetch(URL).then((response) => response.json());
+	const pokemon = await fetch(URL)
+		.then((response) => response.json())
+		.catch((error) => {
+			throw(error);
+		});
 	return pokemon;
 }
 
 export async function fetchPage() {
-	const $URL = document.querySelector(".pokedex").dataset.pagina;
-	const respuesta = await fetch($URL).then((response) => response.json());
+	
+	const urlPagina = document.querySelector(".pokedex").dataset.pagina;
+	
+	const respuesta = await fetch(urlPagina)
+		.then((response) => response.json())
+		.catch((error) => {
+			throw error;
+		});
 
-	return respuesta;
+
+	return await respuesta;
 }
 
-export async function fetchImage(URL, shiny=false) {
+export async function fetchImage(URL, shiny = false) {
 	const pokemonURL = await fetch(URL)
 		.then((respuesta) => respuesta.json())
-		
-		if (shiny){		
-			return pokemonURL.sprites.front_shiny
-		}
-	
+		.catch((error) => {
+			throw (error);
+		});
+
+	if (shiny) {
+		return pokemonURL.sprites.front_shiny;
+	}
+
 	return pokemonURL.sprites.front_default;
 }
+
+
