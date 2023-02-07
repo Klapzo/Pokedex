@@ -1,0 +1,23 @@
+{
+	"name": "pokedex",
+	"version": "1.0.0",
+	"description": "pokedex clase 13 r/argentinaprograma",
+	"main": "index.html",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"cypress": "cypress open"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Klapzo/Pokedex.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Klapzo/Pokedex/issues"
+	},
+	"homepage": "https://github.com/Klapzo/Pokedex#readme",
+	"devDependencies": {
+		"cypress": "^12.5.1"
+	}
+}
