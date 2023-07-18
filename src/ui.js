@@ -66,13 +66,15 @@ async function popularDetail(imagenURL, $pokemonDetail) {
 
 
 
-	const nombre = pokemon.name;
-	const peso = pokemon.weight;
-	const altura = pokemon.height;
-	const id = pokemon.id;
-	const orden = pokemon.order;
-	const xp = pokemon.base_experience;
-	const especie = pokemon.species.name;
+	const pokemonData = {
+  name: pokemon.name,
+  weight: pokemon.weight,
+  height: pokemon.height,
+  id: pokemon.id,
+  order: pokemon.order,
+  xp: pokemon.base_experience,
+  species: pokemon.species.name,
+	}
 
 
 
