@@ -60,8 +60,13 @@ async function popularDetail(imagenURL, $pokemonDetail) {
 	const pokemon = await fetchPokemon(imagenURL);
 	const urlImagenPokemon = await fetchImage(imagenURL, shiny);
 
-	const nombre = pokemon.name;
 
+
+
+
+
+
+	const nombre = pokemon.name;
 	const peso = pokemon.weight;
 	const altura = pokemon.height;
 	const id = pokemon.id;
@@ -69,6 +74,12 @@ async function popularDetail(imagenURL, $pokemonDetail) {
 	const xp = pokemon.base_experience;
 	const especie = pokemon.species.name;
 
+
+
+
+
+
+	
 	$pokemonDetail.querySelector("h3").innerText = nombre;
 	$pokemonDetail.querySelector("img").setAttribute("src", urlImagenPokemon);
 	$pokemonDetail.querySelector(".pokemon-peso").innerText = peso;
@@ -115,16 +126,6 @@ function crearCartas(cantidad = 20) {
 
 		$pokedex.appendChild($carta);
 	}
-}
-
-function cambiarASiguientePagina() {
-	const pagina = document.querySelector(".pokedex").dataset.pagina;
-
-	const numeroPagina = Number(pagina.split("=")[1].split("&")[0]) + 20;
-
-	document.querySelector(
-		".pokedex",
-	).dataset.pagina = `https://pokeapi.co/api/v2/pokemon/?offset=${numeroPagina}&limit=20`;
 }
 
 var configuracionObservador = {
