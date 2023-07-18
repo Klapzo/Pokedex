@@ -53,8 +53,8 @@ function escucharClicks() {
 	$botonVolver.onclick = cambiarEscena;
 }
 
-async function popularDetail(imagenURL, $pokemonDetail) {
-	const shinyCheckbox = $pokemonDetail.querySelector(".shiny");
+async function popularDetail(imagenURL, $detail) {
+	const shinyCheckbox = $detail.querySelector(".shiny");
 	var shiny = false;
 	shinyCheckbox.checked = false;
 	const pokemon = await fetchPokemon(imagenURL);
@@ -66,15 +66,7 @@ async function popularDetail(imagenURL, $pokemonDetail) {
 
 
 
-	const pokemonData = {
-  name: pokemon.name,
-  weight: pokemon.weight,
-  height: pokemon.height,
-  id: pokemon.id,
-  order: pokemon.order,
-  xp: pokemon.base_experience,
-  species: pokemon.species.name,
-	}
+
 
 
 
@@ -85,36 +77,36 @@ async function popularDetail(imagenURL, $pokemonDetail) {
 
 
 	
-	$pokemonDetail.querySelector("h3").innerText = nombre;
-	$pokemonDetail.querySelector("img").setAttribute("src", urlImagenPokemon);
-	$pokemonDetail.querySelector(".pokemon-peso").innerText = peso;
-	$pokemonDetail.querySelector(".pokemon-altura").innerText = altura;
-	$pokemonDetail.querySelector(".pokemon-id").innerText = id;
-	$pokemonDetail.querySelector(".pokemon-orden").innerText = orden;
-	$pokemonDetail.querySelector(".pokemon-xp").innerText = xp;
-	$pokemonDetail.querySelector(".pokemon-especie").innerText = especie;
+	$detail.querySelector("h3").innerText = nombre;
+	$detail.querySelector("img").setAttribute("src", urlImagenPokemon);
+	$detail.querySelector(".pokemon-peso").innerText = peso;
+	$detail.querySelector(".pokemon-altura").innerText = altura;
+	$detail.querySelector(".pokemon-id").innerText = id;
+	$detail.querySelector(".pokemon-orden").innerText = orden;
+	$detail.querySelector(".pokemon-xp").innerText = xp;
+	$detail.querySelector(".pokemon-especie").innerText = especie;
 
 	shinyCheckbox.onclick = async (e) => {
 		e.srcElement.checked ? (shiny = true) : (shiny = false);
 		const urlImagenPokemon = await fetchImage(imagenURL, shiny);
-		$pokemonDetail.querySelector("img").setAttribute("src", urlImagenPokemon);
+		$detail.querySelector("img").setAttribute("src", urlImagenPokemon);
 	};
 }
 
 function cambiarEscena(e) {
 	const $pokedex = document.querySelector(".pokedex");
-	const $pokemonDetail = document.querySelector(".pokemon-detail");
+	const $detail = document.querySelector(".pokemon-detail");
 	const cartaClickeada = e.currentTarget;
 	if ($pokedex.classList.contains("hidden")) {
 		$pokedex.classList.toggle("hidden");
-		$pokemonDetail.classList.toggle("hidden");
+		$detail.classList.toggle("hidden");
 
 		document.documentElement.scrollTop = scroll;
 	} else {
 		scroll = document.documentElement.scrollTop;
 		$pokedex.classList.toggle("hidden");
-		$pokemonDetail.classList.toggle("hidden");
-		popularDetail(cartaClickeada.dataset.pokemonurl, $pokemonDetail);
+		$detail.classList.toggle("hidden");
+		popularDetail(cartaClickeada.dataset.pokemonurl, $detail);
 	}
 }
 
