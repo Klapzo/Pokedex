@@ -78,6 +78,9 @@ async function popularDetail(imagenURL, $pokemonDetail) {
 
 
 
+	
+
+
 
 	
 	$pokemonDetail.querySelector("h3").innerText = nombre;
