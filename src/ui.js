@@ -79,7 +79,7 @@ function cambiarEscena(e) {
 	}
 }
 
-function crearCartas(cantidad = 20) {
+function crearCartas(cantidad = 25) {
 
 	const $pokedex = document.querySelector(".pokedex");
 
@@ -95,15 +95,15 @@ function crearCartas(cantidad = 20) {
 }
 
 var configuracionObservador = {
-	rootMargin: "0px 0px 10px 0px",
-	threshold: 1.0,
+	rootMargin: "0px 0px 12px 0px",
+	threshold: 1.1,
 };
 
 function manejarEntradasObservador(entradas) {
 	entradas.forEach((entrada) => {
 		if (entrada.isIntersecting) {
 			observador.disconnect();
-			if (document.querySelectorAll(".card-template").length < 1278) {
+			if (document.querySelectorAll(".card-template").length < 1270) {
 				manejarCartas();
 			}
 			return;
