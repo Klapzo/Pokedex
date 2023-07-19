@@ -15,8 +15,8 @@ export async function manejarCartas() {
 
 function observarUltimaCarta() {
 	observador.disconnect();
-	const $cartas = document.querySelectorAll(".card-template");
-	const $ultimaCarta = $cartas[$cartas.length - 1];
+	const $cards = document.querySelectorAll(".card-template");
+	const $ultimaCarta = $cards[$cards.length - 1];
 	observador.observe($ultimaCarta);
 }
 
@@ -43,15 +43,7 @@ async function popularCartas() {
 
 }
 
-function escucharClicks() {
 
-	document
-		.querySelectorAll(".card-template:not(.populated)")
-		.forEach((carta) => carta.addEventListener("click", cambiarEscena));
-
-	const $botonVolver = document.querySelector(".pokemon-detail").querySelector(".volver");
-	$botonVolver.onclick = cambiarEscena;
-}
 
 async function popularDetail(imagenURL, $detail) {
 	const shinyCheckbox = $detail.querySelector(".shiny");
@@ -60,31 +52,8 @@ async function popularDetail(imagenURL, $detail) {
 	const pokemon = await fetchPokemon(imagenURL);
 	const urlImagenPokemon = await fetchImage(imagenURL, shiny);
 
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-	
 	$detail.querySelector("h3").innerText = nombre;
 	$detail.querySelector("img").setAttribute("src", urlImagenPokemon);
-	$detail.querySelector(".pokemon-peso").innerText = peso;
-	$detail.querySelector(".pokemon-altura").innerText = altura;
-	$detail.querySelector(".pokemon-id").innerText = id;
-	$detail.querySelector(".pokemon-orden").innerText = orden;
-	$detail.querySelector(".pokemon-xp").innerText = xp;
-	$detail.querySelector(".pokemon-especie").innerText = especie;
 
 	shinyCheckbox.onclick = async (e) => {
 		e.srcElement.checked ? (shiny = true) : (shiny = false);
